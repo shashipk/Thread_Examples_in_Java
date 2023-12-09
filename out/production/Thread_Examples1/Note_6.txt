@@ -1,0 +1,54 @@
+
+Thread Synchronization
+
+  Thread synchronization is used to solve concurrency problems that exist in parallel processing. Concurrency problem exist when more than one thread is accessing the same shared resource.
+
+E.g.
+
+1) More than one transaction is being performed on the same account
+
+2) Multiple resources are booking tickets for the same train from different locations.
+
+etc.
+
+Synchronization in Java Threads
+It can be achieved through
+
+  1) Synchronized methods
+
+  2) Synchronized block
+
+  3) Locks discussed later.
+
+synchronized method
+Consider the class Sample
+
+class Sample {
+    synchronized void f() {...}
+}
+Consider Three threads T1, T2, T3 and two objects for Sample they are A,B.
+
+T1  ..........A.f();  locks A and proceeds
+
+T2  ..........B.f();  locks B and proceeds
+
+T3  ..........A.f();  wait till T1 unlocks A.
+
+To run a synchronized method object must be locked.
+
+synchronized block
+When synchronization is not required for the entire method i.e only certain part of the code must be synchronized then we use synchronized block.
+
+synchronized( object ) {
+  // operations over the object
+}
+The above code is executed only after obtaining lock over the object.
+
+Thread Safe Code or Re-entrant code:-
+When a code block is safe from concurrency problems then the code is referred as thread safe or re-entrant.In case of the below operation incr() operation is considered as thread safe or re-entrant.
+
+Example -
+In the below example try removing synchronized keyword before the incr() operation and check the result. You will find inconsistent result. By making the method synchronized, we are forcing the thread to lock the object before performing the incr() operation. Though control is intentionally passed to other thread, other thread won't be able to proceed with the operation as it need to first lock (obj) before proceeding forward.
+
+i.e. lets assume t1 locks obj then t2 should wait till t1 releases the lock, hence object is modified by only one thread at a time and you will see consistent results.
+
